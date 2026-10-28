@@ -1,0 +1,19 @@
+# systemd unit for running the bot on a Linux server (see DEPLOY.md).
+# __USER__ is replaced with your Linux user name during setup.
+[Unit]
+Description=Albotronix Discord bot
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=__USER__
+WorkingDirectory=/home/__USER__/albotronix
+ExecStart=/home/__USER__/albotronix/.venv/bin/python bot.py
+Environment=PYTHONUNBUFFERED=1
+# Restart after a crash or a lost connection, but not faster than every 10 seconds.
+Restart=always
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target
